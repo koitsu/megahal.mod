@@ -86,7 +86,7 @@ proc pub_trimbrain {nick uhost hand chan arg} {
  global maxsize
  set arg1 [lindex $arg 0]
  if {$arg1 == "" || ![isnum $arg1]} {
-	set arg1 $maxsize
+    set arg1 $maxsize
  }
  trimbrain $arg1
  puthelp "PRIVMSG $chan :Brain trimmed"

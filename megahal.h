@@ -23,36 +23,36 @@
 /*===========================================================================*/
 
 /*
- *	$Id: megahal.h,v 1.3 1998/09/03 03:15:40 hutch Exp hutch $
+ *  $Id: megahal.h,v 1.3 1998/09/03 03:15:40 hutch Exp hutch $
  *
- *	File:		megahal.h
+ *  File:         megahal.h
  *
- *	Program:	MegaHAL v8r5
+ *  Program:    MegaHAL v8r5
  *
- *	Purpose:	To simulate a natural language conversation with a psychotic
- *			computer.  This is achieved by learning from the user's
- *			input using a third-order Markov model on the word level.
- *			Words are considered to be sequences of characters separated
- *			by whitespace and punctuation.  Replies are generated
- *			randomly based on a keyword, and they are scored using
- *			measures of surprise.
+ *  Purpose:    To simulate a natural language conversation with a psychotic
+ *          computer.  This is achieved by learning from the user's
+ *          input using a third-order Markov model on the word level.
+ *          Words are considered to be sequences of characters separated
+ *          by whitespace and punctuation.  Replies are generated
+ *          randomly based on a keyword, and they are scored using
+ *          measures of surprise.
  *
- *	Author:		Mr. Jason L. Hutchens
+ *  Author:     Mr. Jason L. Hutchens
  *
- *	WWW:		http://ciips.ee.uwa.edu.au/~hutch/hal/
+ *  WWW:        http://ciips.ee.uwa.edu.au/~hutch/hal/
  *
- *	E-Mail:		hutch@ciips.ee.uwa.edu.au
+ *  E-Mail:     hutch@ciips.ee.uwa.edu.au
  *
- *	Contact:	The Centre for Intelligent Information Processing Systems
- *			Department of Electrical and Electronic Engineering
- *			The University of Western Australia
- *			AUSTRALIA 6907
+ *  Contact:    The Centre for Intelligent Information Processing Systems
+ *          Department of Electrical and Electronic Engineering
+ *          The University of Western Australia
+ *          AUSTRALIA 6907
  *
- *	Phone:		+61-8-9380-3856
+ *  Phone:      +61-8-9380-3856
  *
- *	Facsimile:	+61-8-9380-1168
+ *  Facsimile:  +61-8-9380-1168
  *
- *	Notes:		This file is best viewed with tabstops set to three spaces.
+ *  Notes:      This file is best viewed with tabstops set to three spaces.
  */
 
 /*===========================================================================*/
@@ -90,46 +90,46 @@
 typedef enum { FALSE, TRUE } bool;
 
 typedef struct {
-	BYTE1 length;
-	wchar_t *word;
+    BYTE1 length;
+    wchar_t *word;
 } STRING;
 
 typedef struct {
-	BYTE4 size;
-	STRING *entry;
-	BYTE2 *index;
+    BYTE4 size;
+    STRING *entry;
+    BYTE2 *index;
 } DICTIONARY;
 
 typedef struct {
-	BYTE2 size;
-	STRING *from;
-	STRING *to;
+    BYTE2 size;
+    STRING *from;
+    STRING *to;
 } SWAP;
 
 typedef struct NODE {
-	BYTE2 symbol;
-	BYTE4 usage;
-	BYTE2 count;
-	BYTE2 branch;
-	struct NODE **tree;
+    BYTE2 symbol;
+    BYTE4 usage;
+    BYTE2 count;
+    BYTE2 branch;
+    struct NODE **tree;
 } TREE;
 
 typedef struct {
-	BYTE1 order;
-	TREE *forward;
-	TREE *backward;
-	TREE **halcontext;
-	BYTE4 phrasecount;
-	BYTE2 **phrase;
-	DICTIONARY *dictionary;
+    BYTE1 order;
+    TREE *forward;
+    TREE *backward;
+    TREE **halcontext;
+    BYTE4 phrasecount;
+    BYTE2 **phrase;
+    DICTIONARY *dictionary;
 } MODEL;
 
 typedef enum { UNKNOWN, QUIT, EXIT, SAVE, DELAY, HELP, SPEECH, VOICELIST, VOICE, BRAIN, PROGRESS, THINK } COMMAND_WORDS;
 
 typedef struct {
-	STRING word;
-	wchar_t *helpstring;
-	COMMAND_WORDS command;
+    STRING word;
+    wchar_t *helpstring;
+    COMMAND_WORDS command;
 } COMMAND;
 
 /* megahal funcs */
@@ -260,11 +260,11 @@ static int amount_bigger_than(int *, int, int);
  * Revision 1.3  1998/09/03  03:15:40  hutch
  * Dunno.
  *
- *	Revision 1.2  1998/04/21 10:10:56  hutch
- *	Fixed a few little errors.
+ *  Revision 1.2  1998/04/21 10:10:56  hutch
+ *  Fixed a few little errors.
  *
- *	Revision 1.1  1998/04/06 08:02:01  hutch
- *	Initial revision
+ *  Revision 1.1  1998/04/06 08:02:01  hutch
+ *  Initial revision
  */
 
 /*===========================================================================*/
