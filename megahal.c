@@ -234,13 +234,14 @@ static DICTIONARY *ban = NULL;
 static DICTIONARY *aux = NULL;
 static SWAP *swp = NULL;
 static bool used_key;
-static char directory_cache[513] = DIR_DEFAULT_CACHE;
+static char directory_cache[520] = DIR_DEFAULT_CACHE;
 static char directory_resources[513] = DIR_DEFAULT_RESOURCES;
 
 /* predefinitions for eggdrop port */
 
 static Function *global = NULL;
-static Function *irc_funcs = NULL, *server_funcs = NULL;
+static Function *irc_funcs = NULL;
+static Function *server_funcs = NULL;
 static DICTIONARY *words = NULL;
 static MODEL *model = NULL;
 static int talkfrequency = 40;
@@ -249,18 +250,27 @@ static bool learningmode = TRUE;
 static wchar_t glob_str[15000];
 static wchar_t glob_buffer[513];
 static wchar_t mbotnick[32] = _T(BOTNICK);
-static int maxlines = 10, maxtime = 60, curlines = 0, curtime = 0;
-static char texcludechans[513] = "", rexcludechans[513] = "", responsekeywords[513] = "";
+static int maxlines = 10;
+static int maxtime = 60;
+static int curlines = 0;
+static int curtime = 0;
+static char texcludechans[513] = "";
+static char rexcludechans[513] = "";
+static char responsekeywords[513] = "";
 static int maxsize = 100000;
 static int maxreplywords = 0;
 static int surprise = 1;
-static DICTIONARY *prev1, *prev2, *prev3, *prev4, *prev5;
+static DICTIONARY *prev1;
+static DICTIONARY *prev2;
+static DICTIONARY *prev3;
+static DICTIONARY *prev4;
+static DICTIONARY *prev5;
 
 static cmd_t mega_dcc[] =
 {
   {BOTNICK, "", dcc_megahal, NULL},
-  {"forget", "m", dcc_forget, NULL},
   {"megaver", "", dcc_megaver, NULL},
+  {"forget", "m", dcc_forget, NULL},
   {NULL, NULL, NULL, NULL}
 };
 
@@ -689,14 +699,15 @@ static int getchannum(char *chan)
 
 static void do_megahal(int idx, char *prefix, char *text, bool learnit, char *nick, char *chan)
 {
-	char stuff[strlen(prefix) + 50], *lhalreply, *lmbotnick;
-	wchar_t *halreply, *wtext;
+    char *lhalreply;
+    char *lmbotnick;
+	wchar_t *halreply;
+    wchar_t *wtext;
 
 	Context;
 	/* Is there anything to parse? */
 	if(!text[0]) {
-		sprintf(stuff, "%sSo tell me something already.\n", prefix);
-		dprintf(idx, stuff);
+		dprintf(idx, "%sSo tell me something already.\n", prefix);
 		return;
 	}
 
@@ -1307,7 +1318,7 @@ static int tcl_reloadphrases STDVAR
 
 static void reloadphrases()
 {
-  char filename[512];
+  char filename[532];
 	Context;
 
 	free_model(model);
@@ -1320,7 +1331,7 @@ static void reloadphrases()
 
 static int tcl_learnfile STDVAR
 {
-	char filename[512];
+	char filename[514];
 
 	Context;
 	BADARGS(2, 2, " <filename>");
@@ -2739,7 +2750,6 @@ static void train(MODEL *model, char *filename)
 	char buffer[1024];
 	wchar_t *wbuffer = NULL;
 	DICTIONARY *words = NULL;
-	int length;
 
 	Context;
 	if(filename == NULL)
@@ -2750,10 +2760,6 @@ static void train(MODEL *model, char *filename)
 		putlog(LOG_MISC, "*", "Unable to find the personality %s\n", filename);
 		return;
 	}
-
-	fseek(file, 0, 2);
-	length = ftell(file);
-	rewind(file);
 
 	words = new_dictionary();
 
@@ -2792,7 +2798,7 @@ static void show_dictionary(DICTIONARY *dictionary)
 	FILE *file;
 	char *ldict_word;
 	wchar_t *tmp;
-	char filename[512];
+	char filename[532];
 
 	Context;
 	snprintf(filename, sizeof(filename), "%s%smegahal.dic", directory_cache, SEP);
@@ -2823,7 +2829,7 @@ static void save_phrases(MODEL *model)
 	DICTIONARY *phrase;
 	FILE *file;
 	char *phrase2;
-	char filename[512];
+	char filename[532];
 
 	Context;
 	phrase = new_dictionary();
@@ -2866,7 +2872,7 @@ static void save_model(char *modelname, MODEL *model)
 {
 	register int i, j;
 	FILE *file;
-  char filename[512];
+  char filename[532];
 
 	Context;
 
@@ -3975,8 +3981,8 @@ static int rnd(int range)
 static void load_personality(MODEL **model)
 {
 	FILE *file;
-	char filename[512];
-	char filename_train[512];
+	char filename[532];
+	char filename_train[525];
 	bool btrain = FALSE;
 
 	Context;
@@ -3986,8 +3992,12 @@ static void load_personality(MODEL **model)
 	 *	Check to see if the brain exists
 	 */
 	snprintf(filename, sizeof(filename), "%s%smegahal.brn", directory_cache, SEP);
-	snprintf(filename_train, sizeof(filename_train), "%s%smegahal.trn", directory_resources, SEP);
+    snprintf(filename_train, sizeof(filename_train), "%s%smegahal.trn", directory_resources, SEP);
+
+    // Open the brain file.
 	file = fopen(filename, "r");
+
+    // If the brain file fails to open, let's try for the train file.
 	if(file == NULL) {
 		file = fopen(filename_train, "r");
 		btrain = TRUE;
