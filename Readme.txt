@@ -1,6 +1,6 @@
 MegaHAL module for eggdrop
 Version 3.5
-By Jason Hutchens and Zev ^Baron^ Toledano (megahal2 at thelastexit dot net)
+By Jason Hutchens and Zev ^Baron^ Toledano (megahal at thelastexit.net)
 
 Artificially Intelligent conversation with learning capability and
 psychotic personality.
@@ -41,7 +41,7 @@ see the megahal.c file.
 
 If this program formats your hard drive by mistake, or gets your dog pregnant,
 keep your complaints to yourself. If you wish to thank me or send reasonable
-suggestions and new ideas for improvement, send me an email at megahal2 at thelastexit dot net
+suggestions and new ideas for improvement, send me an email at megahal at thelastexit.net
 J. Hutchens is NO longer working on it since 1999 and it has changed a lot since.
 
 This was tested on eggdrops versions 1.5.x and higher only.

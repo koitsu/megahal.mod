@@ -23,39 +23,43 @@
 /*===========================================================================*/
 
 /*
- *		$Id: megahal.h,v 1.3 1998/09/03 03:15:40 hutch Exp hutch $
+ *	$Id: megahal.h,v 1.3 1998/09/03 03:15:40 hutch Exp hutch $
  *
- *		File:			megahal.h
+ *	File:		megahal.h
  *
- *		Program:		MegaHAL v8r5
+ *	Program:	MegaHAL v8r5
  *
- *		Purpose:		To simulate a natural language conversation with a psychotic
- *						computer.  This is achieved by learning from the user's
- *						input using a third-order Markov model on the word level.
- *						Words are considered to be sequences of characters separated
- *						by whitespace and punctuation.  Replies are generated
- *						randomly based on a keyword, and they are scored using
- *						measures of surprise.
+ *	Purpose:	To simulate a natural language conversation with a psychotic
+ *			computer.  This is achieved by learning from the user's
+ *			input using a third-order Markov model on the word level.
+ *			Words are considered to be sequences of characters separated
+ *			by whitespace and punctuation.  Replies are generated
+ *			randomly based on a keyword, and they are scored using
+ *			measures of surprise.
  *
- *		Author:		Mr. Jason L. Hutchens
+ *	Author:		Mr. Jason L. Hutchens
  *
- *		WWW:			http://ciips.ee.uwa.edu.au/~hutch/hal/
+ *	WWW:		http://ciips.ee.uwa.edu.au/~hutch/hal/
  *
- *		E-Mail:		hutch@ciips.ee.uwa.edu.au
+ *	E-Mail:		hutch@ciips.ee.uwa.edu.au
  *
- *		Contact:		The Centre for Intelligent Information Processing Systems
- *						Department of Electrical and Electronic Engineering
- *						The University of Western Australia
- *						AUSTRALIA 6907
+ *	Contact:	The Centre for Intelligent Information Processing Systems
+ *			Department of Electrical and Electronic Engineering
+ *			The University of Western Australia
+ *			AUSTRALIA 6907
  *
- *		Phone:		+61-8-9380-3856
+ *	Phone:		+61-8-9380-3856
  *
- *		Facsimile:	+61-8-9380-1168
+ *	Facsimile:	+61-8-9380-1168
  *
- *		Notes:		This file is best viewed with tabstops set to three spaces.
+ *	Notes:		This file is best viewed with tabstops set to three spaces.
  */
 
 /*===========================================================================*/
+
+#define _T(x) __T(x)
+#define _TEXT(x) __T(x)
+#define __T(x) L ## x
 
 #define P_THINK 40
 #define D_KEY 100000
@@ -65,13 +69,14 @@
 
 #define MIN(a,b) ((a)<(b))?(a):(b)
 
-#define DEFAULT "."
+#define DIR_DEFAULT_RESOURCES "megahal.data/default"
+#define DIR_DEFAULT_CACHE "brains"
 
 #define COMMAND_SIZE (sizeof(command)/sizeof(command[0]))
 
-#define BYTE1 unsigned char
-#define BYTE2 unsigned short
-#define BYTE4 unsigned long
+#define BYTE1 uint8_t
+#define BYTE2 uint16_t
+#define BYTE4 uint32_t
 
 #define SEP "/"
 
@@ -83,7 +88,7 @@ typedef enum { FALSE, TRUE } bool;
 
 typedef struct {
 	BYTE1 length;
-	char *word;
+	wchar_t *word;
 } STRING;
 
 typedef struct {
@@ -116,29 +121,26 @@ typedef struct {
 	DICTIONARY *dictionary;
 } MODEL;
 
-
 typedef enum { UNKNOWN, QUIT, EXIT, SAVE, DELAY, HELP, SPEECH, VOICELIST, VOICE, BRAIN, PROGRESS, THINK } COMMAND_WORDS;
 
 typedef struct {
 	STRING word;
-	char *helpstring;
+	wchar_t *helpstring;
 	COMMAND_WORDS command;
 } COMMAND;
-
-
 
 /* megahal funcs */
 
 static void add_aux(MODEL *, DICTIONARY *, STRING);
 static void add_key(MODEL *, DICTIONARY *, STRING);
 static void add_node(TREE *, TREE *, int);
-static void add_swap(SWAP *, char *, char *);
+static void add_swap(SWAP *, wchar_t *, wchar_t *);
 static TREE *add_symbol(TREE *, BYTE2);
 static BYTE2 add_word(DICTIONARY *, STRING);
 static int babble(MODEL *, DICTIONARY *, DICTIONARY *);
-static bool boundary(char *, int);
-static void capitalize(char *);
-static void change_personality(DICTIONARY *, int, MODEL **);
+static bool boundary(wchar_t *, int);
+static void capitalize(wchar_t *);
+static void change_personality(MODEL **, const char *, const char *);
 static bool dissimilar(DICTIONARY *, DICTIONARY *);
 static void error(char *, char *, ...);
 static float evaluate_reply(MODEL *, DICTIONARY *, DICTIONARY *);
@@ -150,7 +152,7 @@ static void free_model(MODEL *);
 static void free_tree(TREE *);
 static void free_word(STRING);
 static void free_words(DICTIONARY *);
-static char *generate_reply(MODEL *, DICTIONARY *);
+static wchar_t *generate_reply(MODEL *, DICTIONARY *);
 static void initialize_context(MODEL *);
 static void initialize_dictionary(DICTIONARY *);
 static DICTIONARY *initialize_list(char *);
@@ -162,9 +164,10 @@ static bool load_model(char *, MODEL *);
 static void load_personality(MODEL **);
 static void load_tree(FILE *, TREE *);
 static void load_word(FILE *, DICTIONARY *);
+static wchar_t *locale_to_wchar(char *);
 static DICTIONARY *make_keywords(MODEL *, DICTIONARY *);
-static char *make_output(DICTIONARY *);
-static void make_words(char *, DICTIONARY *);
+static wchar_t *make_output(DICTIONARY *);
+static void make_words(wchar_t *, DICTIONARY *);
 static DICTIONARY *new_dictionary(void);
 static MODEL *new_model(int);
 static TREE *new_node(void);
@@ -181,24 +184,25 @@ static void show_dictionary(DICTIONARY *);
 static void train(MODEL *, char *);
 static void update_context(MODEL *, int);
 static void update_model(MODEL *, int);
-static void upper(char *);
+static void upper(wchar_t *);
 static bool warn(char *, char *, ...);
+static char *wchar_to_locale(wchar_t *);
 static int wordcmp(STRING, STRING);
-static int wordcmp2(STRING, char *);
+static int wordcmp2(STRING, wchar_t *);
 static bool word_exists(DICTIONARY *, STRING);
-
 
 /* eggdrop funcs */
 
 struct userrec; /* kill warnings */
 
-static char *mystrdup(const char *);
-static void mystrlwr(char *string);
-static const char *mystrstr(const char *, const char *);
+static wchar_t *mystrdup(const wchar_t *);
+static void mystrlwr(wchar_t *string);
+static wchar_t* mynewsplit(wchar_t **);
+static const wchar_t *mystrstr(const wchar_t *, const wchar_t *);
 char *megahal_start();
 static int megahal_expmem();
 static int dictionary_expmem(DICTIONARY *);
-static char *megahal_close();
+static wchar_t *megahal_close();
 static void megahal_report(int, int);
 static bool floodcheck();
 static char *istextinlist(char *, char *);
@@ -213,7 +217,7 @@ static int dcc_megahal(struct userrec *, int, char *);
 static int dcc_forget(struct userrec *, int, char *);
 static int pub_forget(char *, char *, char *, char *, char *);
 static int pub_forgetword(char *, char *, char *, char *, char *);
-static int find_phrase(char *, bool *);
+static int find_phrase(wchar_t *, bool *);
 static void del_all_phrases(int);
 static int dcc_megaver(struct userrec *, int, char *);
 static int pub_megaver(char *, char *, char *, char *, char *);
@@ -241,26 +245,23 @@ static BYTE2 **realloc_phrase(MODEL *);
 static void save_phrases(MODEL *);
 static bool isrepeating(DICTIONARY *);
 static bool isinprevs(DICTIONARY *);
-static void updateprevs(char *);
-static void strip_codes(char *);
+static void updateprevs(wchar_t *);
+static void strip_codes(wchar_t *);
 static bool dissimilar2(DICTIONARY *, DICTIONARY *);
 static int amount_bigger_than(int *, int, int);
-
-
 
 /*===========================================================================*/
 
 /*
- *		$Log: megahal.h,v $
+ * $Log: megahal.h,v $
  * Revision 1.3  1998/09/03  03:15:40  hutch
  * Dunno.
  *
- *		Revision 1.2  1998/04/21 10:10:56  hutch
- *		Fixed a few little errors.
+ *	Revision 1.2  1998/04/21 10:10:56  hutch
+ *	Fixed a few little errors.
  *
- *		Revision 1.1  1998/04/06 08:02:01  hutch
- *		Initial revision
+ *	Revision 1.1  1998/04/06 08:02:01  hutch
+ *	Initial revision
  */
 
 /*===========================================================================*/
-
