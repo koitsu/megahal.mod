@@ -57,6 +57,9 @@
 
 /*===========================================================================*/
 
+#ifndef _EGG_MOD_MEGAHAL_MEGAHAL_H
+#define _EGG_MOD_MEGAHAL_MEGAHAL_H
+
 #define _T(x) __T(x)
 #define _TEXT(x) __T(x)
 #define __T(x) L ## x
@@ -265,3 +268,5 @@ static int amount_bigger_than(int *, int, int);
  */
 
 /*===========================================================================*/
+
+#endif
