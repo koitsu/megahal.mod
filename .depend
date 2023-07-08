@@ -1,0 +1,4 @@
+megahal.o: megahal.c megahal.h ../module.h ../../../config.h \
+ ../../main.h ../../lang.h ../../eggdrop.h ../../flags.h ../../proto.h \
+ ../../../lush.h ../../cmdt.h ../../tclegg.h ../../tclhash.h \
+ ../../chan.h ../../users.h ../modvals.h ../../tandem.h
