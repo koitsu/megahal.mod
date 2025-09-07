@@ -42,8 +42,8 @@ refer to the Eggdrop documentation first.
 Once you have your Eggdrop bot building, you can add in this module pretty easily.  Follow the following basic steps to
 get your module built and installed.
 
-The following commands assume you have your Eggdrop source extracted to `~/eggdrop/` directory. Adjust the paths as
-required.
+The following commands assume you have your Eggdrop source extracted to the `~/eggdrop` directory. Adjust paths as
+needed.
 
 1. Clone the repo into the `src/mod` folder:
 ```shell
@@ -52,27 +52,26 @@ git clone https://github.com/orkim/megahal.mod.git megahal.mod
 ```
 
 2. Configure Eggdrop again (`config` or `iconfig` Makefile targets) to build the megahal module. This assumes you are
-building eggdrop in the source tree. If you are using out-of-source build directory you will need to adjust the path to
-be where you're top `Makefile` is located.
+building eggdrop in the source tree. If you are using out-of-source build directory, you will need to adjust the path to
+point to where your top `Makefile` is located:
 ```shell
 cd ~/eggdrop
 make config
 ```
 
-3. Once successfully built, you can copy the module over with `make install`.
+3. Once successfully built, you can copy the module over with `make install`:
 ```shell
 make install
 ```
 
 4. The first time you install megahal.mod you probably want to copy over the initial megahal files. This will copy over
 the `scripts/megahal.tcl` file, an example `eggdrop-megahal.conf` to append to your Eggdrop configuration file, and a
-skeleton `megahal.data` directory for use by the module.
+skeleton `megahal.data` directory for use by the module:
 ```shell
-cp -a ~/eggdrop/src/mod/megahal.com/conf/* /path/to/eggdrop
+cp -a ~/eggdrop/src/mod/megahal.mod/conf/* /path/to/eggdrop
 ```
 
-5. Finally, edit your Eggdrop configuration file for you bot and add the few lines in `eggdrop-megahal.conf` to the end
-end.
+5. Finally, edit your Eggdrop configuration file and append the content of `eggdrop-megahal.conf` to the end:
 ```shell
 cat /path/to/eggdrop/eggdrop-megahal.conf >> /path/to/eggdrop/bot.conf
 ```
