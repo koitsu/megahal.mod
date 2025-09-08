@@ -1823,46 +1823,8 @@ static void updateprevs(wchar_t *words)
 /*
  * The remainder of this code was just pasted from the rest of megahal.c, and
  * modified where necessary to get messages put in the right place, etc.
+ * warn() and error() functions were replaced with macros; see megahal.h.
  */
-
-/*---------------------------------------------------------------------------*/
-/*
- *  Function:   Error
- *
- *  Purpose:    Print the specified message to the error file.
- */
-static void error(char *title, char *fmt, ...)
-{
-    va_list argp;
-    char stuff[512];
-
-    Context;
-    sprintf(stuff, "%s: ", title);
-    va_start(argp, fmt);
-    vsprintf(stuff, fmt, argp);
-    va_end(argp);
-    sprintf(stuff, ".\n");
-    putlog(LOG_MISC, "*", "%s", stuff);
-
-    /* FIXME - I think I need to die here */
-}
-
-/*---------------------------------------------------------------------------*/
-
-static bool warn(char *title, char *fmt, ...)
-{
-    va_list argp;
-    char stuff[512];
-
-    Context;
-    sprintf(stuff, "%s: ", title);
-    va_start(argp, fmt);
-    vsprintf(stuff, fmt, argp);
-    va_end(argp);
-    sprintf(stuff, ".\n");
-    putlog(LOG_MISC, "*", "%s", stuff);
-    return TRUE;
-}
 
 /*---------------------------------------------------------------------------*/
 

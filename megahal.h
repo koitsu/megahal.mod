@@ -132,6 +132,12 @@ typedef struct {
     COMMAND_WORDS command;
 } COMMAND;
 
+/* replace warn() and error() functions with macros to putlog() */
+/* also remove unnecessary .\n at end of strings */
+
+#define error(title, fmt, ...) putlog(LOG_MISC, "*", "error: %s: " fmt, title, ##__VA_ARGS__)
+#define warn(title, fmt, ...)  putlog(LOG_MISC, "*", "warning: %s: " fmt, title, ##__VA_ARGS__)
+
 /* megahal funcs */
 
 static void add_aux(MODEL *, DICTIONARY *, STRING);
@@ -145,7 +151,6 @@ static bool boundary(wchar_t *, int);
 static void capitalize(wchar_t *);
 static void change_personality(MODEL **, const char *, const char *);
 static bool dissimilar(DICTIONARY *, DICTIONARY *);
-static void error(char *, char *, ...);
 static float evaluate_reply(MODEL *, DICTIONARY *, DICTIONARY *);
 static TREE *find_symbol(TREE *, int);
 static TREE *find_symbol_add(TREE *, int);
@@ -188,7 +193,6 @@ static void train(MODEL *, char *);
 static void update_context(MODEL *, int);
 static void update_model(MODEL *, int);
 static void upper(wchar_t *);
-static bool warn(char *, char *, ...);
 static char *wchar_to_locale(wchar_t *);
 static int wordcmp(STRING, STRING);
 static int wordcmp2(STRING, wchar_t *);
