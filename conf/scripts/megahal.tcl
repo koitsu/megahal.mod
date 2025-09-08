@@ -1,9 +1,19 @@
 # This is an accompanying TCL script to go with the MegaHAL eggdrop module
 # It is optional but strongly recommended
 
-# Should the bot learn what is said to it or only converse? Set to on/off.
-#set megahal_directory_resources "megahal.data/default"
-#set megahal_directory_cache "megahal.data/default/brains"
+# megahal_directory_resources is a path to a directory containing contents
+# that are only read (never written):
+# - megahal.aux
+# - megahal.ban
+# - megahal.swp
+# - megahal.trn
+set megahal_directory_resources "megahal.data/default"
+
+# megahal_directory_cache is a path to a directory.  Contents:
+# - megahal.brn
+# - megahal.dic
+# - megahal.phr
+set megahal_directory_cache "megahal.data/default/brains"
 
 # Should the bot learn what is said to it or only converse? Set to on/off.
 set learnmode on
