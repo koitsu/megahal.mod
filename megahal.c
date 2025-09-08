@@ -2147,7 +2147,6 @@ static void free_model(MODEL *model)
 
 static void free_tree(TREE *tree)
 {
-    static int level = 0;
     register int i;
 
     Context;
@@ -2156,9 +2155,7 @@ static void free_tree(TREE *tree)
 
     if(tree->tree!=NULL) {
         for(i=0; i<tree->branch; ++i) {
-            ++level;
             free_tree(tree->tree[i]);
-            --level;
         }
         nfree(tree->tree);
     }
@@ -2869,7 +2866,6 @@ static void save_model(char *modelname, MODEL *model)
  */
 static void save_tree(FILE *file, TREE *node)
 {
-    static int level=0;
     register int i;
 
     Context;
@@ -2879,9 +2875,7 @@ static void save_tree(FILE *file, TREE *node)
     fwrite(&(node->branch), sizeof(BYTE2), 1, file);
 
     for(i=0; i<node->branch; ++i) {
-        ++level;
         save_tree(file, node->tree[i]);
-        --level;
     }
 }
 
@@ -2894,7 +2888,6 @@ static void save_tree(FILE *file, TREE *node)
  */
 static void load_tree(FILE *file, TREE *node)
 {
-    static int level = 0;
     register int i;
 
     Context;
@@ -2915,9 +2908,7 @@ static void load_tree(FILE *file, TREE *node)
 
         for(i=0; i<node->branch; ++i) {
             node->tree[i] = new_node();
-            ++level;
             load_tree(file, node->tree[i]);
-            --level;
         }
     }
 }
