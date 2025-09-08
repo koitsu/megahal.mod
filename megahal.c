@@ -1593,7 +1593,7 @@ static int tcl_savebrain STDVAR
 {
     Context;
     save_model("megahal.brn", model);
-    putlog(LOG_MISC, "*", "Saved brain");
+    putlog(LOG_MISC, "*", "Brain saved");
     return TCL_OK;
 }
 
