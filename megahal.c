@@ -1592,8 +1592,8 @@ static void recurse_tree_and_decrement_symbols(TREE *node, int smallestsymbol, i
 static int tcl_savebrain STDVAR
 {
     Context;
-    putlog(LOG_MISC, "*", "Saving brain...");
     save_model("megahal.brn", model);
+    putlog(LOG_MISC, "*", "Saved brain");
     return TCL_OK;
 }
 
