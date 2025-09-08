@@ -2766,7 +2766,7 @@ static void show_dictionary(DICTIONARY *dictionary)
     snprintf(filename, sizeof(filename), "%s%smegahal.dic", directory_cache, SEP);
     file = fopen(filename, "w");
     if(file == NULL) {
-        warn("show_dictionary", "Unable to open file");
+        warn("show_dictionary", "Unable to open file `%s'", filename);
         return;
     }
 
@@ -2798,7 +2798,7 @@ static void save_phrases(MODEL *model)
     snprintf(filename, sizeof(filename), "%s%smegahal.phr", directory_cache, SEP);
     file = fopen(filename, "w");
     if(file == NULL) {
-        warn("save_phrases", "Unable to open file");
+        warn("save_phrases", "Unable to open file `%s'", filename);
         return;
     }
 
